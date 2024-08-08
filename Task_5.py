@@ -42,27 +42,31 @@ def draw_tree(tree_root, visited_nodes=None):
     plt.show()
 
 def dfs_traversal(root):
-    stack = [(root, 0)]
+    stack = [root]
     visited_nodes = {}
+    step = 0
     while stack:
-        node, depth = stack.pop()
-        if node:
-            color = plt.cm.viridis(depth / 20)  # Генерація кольору на основі глибини
+        node = stack.pop()
+        if node and node.id not in visited_nodes:
+            color = plt.cm.viridis(step / 20)  # Генерація кольору на основі порядку відвідування
             visited_nodes[node.id] = color
-            stack.append((node.right, depth + 1))
-            stack.append((node.left, depth + 1))
+            step += 1
+            stack.append(node.right)
+            stack.append(node.left)
     return visited_nodes
 
 def bfs_traversal(root):
-    queue = deque([(root, 0)])
+    queue = deque([root])
     visited_nodes = {}
+    step = 0
     while queue:
-        node, depth = queue.popleft()
-        if node:
-            color = plt.cm.plasma(depth / 20)  # Генерація кольору на основі глибини
+        node = queue.popleft()
+        if node and node.id not in visited_nodes:
+            color = plt.cm.plasma(step / 20)  # Генерація кольору на основі порядку відвідування
             visited_nodes[node.id] = color
-            queue.append((node.left, depth + 1))
-            queue.append((node.right, depth + 1))
+            step += 1
+            queue.append(node.left)
+            queue.append(node.right)
     return visited_nodes
 
 # Створення дерева

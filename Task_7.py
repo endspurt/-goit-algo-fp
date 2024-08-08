@@ -19,6 +19,7 @@ def plot_probabilities(probabilities):
     plt.xlabel('Сума')
     plt.ylabel('Імовірність')
     plt.title('Імовірності сум при киданні двох кубиків (Метод Монте-Карло)')
+    plt.savefig("monte_carlo_probabilities.png")
     plt.show()
 
 num_rolls = 100000
@@ -27,5 +28,22 @@ plot_probabilities(probabilities)
 
 # Аналітичні ймовірності для порівняння
 analytical_probabilities = [1/36, 2/36, 3/36, 4/36, 5/36, 6/36, 5/36, 4/36, 3/36, 2/36, 1/36]
+comparison_results = []
+
 for sum_value, probability in zip(range(2, 13), analytical_probabilities):
-    print(f"Сума: {sum_value}, Аналітична імовірність: {probability:.4f}, Імітаційна імовірність: {probabilities[sum_value]:.4f}")
+    monte_carlo_probability = probabilities[sum_value]
+    comparison_results.append((sum_value, probability, monte_carlo_probability))
+    print(f"Сума: {sum_value}, Аналітична імовірність: {probability:.4f}, Імітаційна імовірність: {monte_carlo_probability:.4f}")
+
+# Запис результатів у файл readme.md
+with open("README.md", "w", encoding="utf-8") as f:
+    f.write("# Порівняння імовірностей сум при киданні двох кубиків\n\n")
+    f.write("Цей файл містить порівняння між аналітичними імовірностями та імітаційними імовірностями, отриманими за допомогою методу Монте-Карло. Результати імітації засновані на 100000 кидках двох кубиків.\n\n")
+    f.write("| Сума | Аналітична імовірність | Імітаційна імовірність |\n")
+    f.write("|------|------------------------|-----------------------|\n")
+    for sum_value, analytical, monte_carlo in comparison_results:
+        f.write(f"| {sum_value} | {analytical:.4f} | {monte_carlo:.4f} |\n")
+
+    f.write("\n## Висновки\n")
+    f.write("На основі результатів порівняння можна зробити висновок, що імітаційні імовірності, отримані за допомогою методу Монте-Карло, дуже близькі до аналітичних імовірностей. Це демонструє правильність розрахунків та ефективність методу Монте-Карло для подібних задач.\n")
+    f.write("Невеликі відхилення між імітаційними та аналітичними імовірностями можуть бути пояснені випадковим характером імітаційного процесу. Проте, загальна тенденція та відповідність результатів підтверджують, що метод Монте-Карло є надійним підходом для оцінки ймовірностей.\n")
